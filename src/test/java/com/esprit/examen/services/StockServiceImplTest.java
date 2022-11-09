@@ -33,7 +33,8 @@ public class StockServiceImplTest {
 		Stock s = new Stock(1L,"stock test",10,100 );
 		Mockito.when(stockRepository.save(s)).thenReturn(s);
 		Stock savedStock= stockService.addStock(s);
-		System.out.println(savedStock.getIdStock());
+		assertNotNull(savedStock.getIdStock());
+
 	//	assertEquals(expected+1, stockService.retrieveAllStocks().size());
 //		assertNotNull(savedStock.getLibelleStock());
 //		stockService.deleteStock(savedStock.getIdStock());
@@ -53,7 +54,7 @@ public class StockServiceImplTest {
 //		stockService.deleteStock(savedStock.getIdStock());
 //
 //	}
-//
+
 //	@Test
 //	public void testAddStockOptimized() {
 //
@@ -65,7 +66,7 @@ public class StockServiceImplTest {
 //		stockService.deleteStock(savedStock.getIdStock());
 //
 //	}
-//
+
 //	@Test
 //	public void testDeleteStock() {
 //		Stock s = new Stock("stock test",30,60);
@@ -73,21 +74,27 @@ public class StockServiceImplTest {
 //		stockService.deleteStock(savedStock.getIdStock());
 //		assertNull(stockService.retrieveStock(savedStock.getIdStock()));
 //	}
-//
-//	@Test
-//	public void testRetrieveAllStocks(){
-//		List<Stock> stocks = stockService.retrieveAllStocks();
-//		int expected=stocks.size();
-//		Stock s = new Stock("stock test",30,60);
-//		Stock savedStock= stockService.addStock(s);
-//		assertEquals(expected+1, stockService.retrieveAllStocks().size());
-//		stockService.deleteStock(savedStock.getIdStock());
-//	}
-//
+
+	@Test
+	public void testRetrieveAllStocks(){
+		List<Stock> stocks = stockService.retrieveAllStocks();
+		Stock s1 = new Stock(1L,"stock test1",30,60);
+		Stock s2= new Stock(2L,"stock test2",60,120);
+		stocks.add(s1);
+		stocks.add(s2);
+		Mockito.when(stockRepository.findAll()).thenReturn(stocks);
+
+		List<Stock> allStocks = stockService.retrieveAllStocks();
+		assertEquals(2, allStocks.size());
+		//stockService.deleteStock(savedStock.getIdStock());
+	}
+
 //	@Test
 //	public void testRetrieveStockById(){
 //
-//		Stock s = new Stock("stock test",10,60);
+//		Stock s = new Stock(1L,"stock test",10,60);
+//		Mockito.when(stockRepository.save(s)).thenReturn(s);
+//		Mockito.when(stockRepository.deleteById(Mockito.anyLong())
 //		Stock savedStock= stockService.addStock(s);
 //		Stock stockGet=stockService.retrieveStock(savedStock.getIdStock());
 //		assertNotNull(stockGet.getIdStock());
