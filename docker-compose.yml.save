@@ -1,0 +1,41 @@
+version: "2.12"
+services:
+ mysqldb:
+  container_name: mysqldb
+  image: mysql:8
+  restart: unless-stopped
+  environment:
+   MYSQL_ROOT_PASSWORD: root
+  volumes:
+   - /home/mysql/data:/var/lib/mysql
+ 
+
+ spring_app:
+  image: tpachat
+  container_name: tpachat
+  restart: on-failure
+  ports:
+   - 8089:8089
+  depends_on:
+   - mysqldb
+ 
+
+ nexus:
+  image: sonatype/nexus3
+  container_name: nexus
+  volumes:
+   - "nexus-data:/sonatype-wor"
+  ports:
+   - "8081:8081"
+  
+ sonarqube:
+  image: sonarqube
+  container_name: sonarqube
+  ports:
+   - 9000:9000
+  depends_on:
+   - mysqldb
+
+
+volumes:
+ nexus-data: {}

@@ -1,0 +1,76 @@
+pipeline {
+
+    agent {label 'agent'}
+
+
+    stages {
+        stage ('GIT') {
+            steps {
+               echo "Getting Project from Git"; 
+                git branch: "main", 
+                    url: "https://github.com/AliSaidiPortfolio/atelier_docker",
+                    credentialsId: "jenkins_token";
+            }
+        }
+       
+        stage("Build") {
+            steps {
+                sh "mvn -version"
+                sh "mvn clean package -DskipTests"
+            }
+        }
+
+        stage("Sonar") {
+           steps {
+                sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=alisaidi"
+            }
+        }
+        
+ //       stage("SRC Analysis Testing") {
+ //           steps {
+ //               bat "mvn sonar:sonar"
+ //           }
+ //       }
+        
+       
+
+        stage("Deploy Artifact to private registry") {
+            steps {
+                sh "mvn deploy"
+            }
+        }
+
+         stage("Build Docker image") {
+            steps {
+                sh"wget --user=admin --password=alisaidi http://192.168.1.29:8081/repository/maven-releases/com/esprit/examen/tpAchatProject/1.0/tpAchatProject-1.0.jar"
+                sh "docker build -t tpachat ." 
+            }
+        }   
+
+        stage("Deploy Dokcer Image to private registry") {
+            steps {
+                sh "docker login -u admin -p alisaidi 192.168.1.29:9001"
+                sh "docker tag tpachat 192.168.1.29:9001/tpachat:latest"
+                sh "docker push 192.168.1.29:9001/tpachat:latest"
+            }
+        }
+       
+       stage("Start Application"){
+            steps {
+                sh "docker pull 192.168.1.29:9001/tpachat:latest"
+                sh "docker network create tpachat-mysql"
+                sh "docker container run --name mysqldb -v /home/mysql/data:/var/lib/mysql  --network tpachat-mysql -e MYSQL_ROOT_PASSWORD=root  -d mysql:latest"
+                sh "docker container run --network tpachat-mysql --name tpachatApp -p 8089:8089 -d 192.168.1.29:9001/tpachat:latest"
+            }
+
+        }
+
+   }
+   
+    post {
+        always {
+            cleanWs()
+        }
+    }
+    
+}

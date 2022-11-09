@@ -1,0 +1,64 @@
+version: "2.12"
+services:
+# mysqldb:
+#  container_name: mysqldb
+#  image: mysql:8
+#  restart: unless-stopped
+#  environment:
+#   MYSQL_ROOT_PASSWORD: root
+#  volumes:
+#   - /home/mysql/data:/var/lib/mysql
+ 
+
+# spring_app:
+#  image: tpachat
+#  container_name: tpachat
+#  restart: on-failure
+#  ports:
+#   - 8089:8089
+#  depends_on:
+#   - mysqldb
+ 
+
+ nexus:
+  image: sonatype/nexus3:latest
+  container_name: nexus
+  volumes:
+   - "/home/nexus/nexus-data:/nexus-data"
+  ports:
+   - "8081:8081"
+   - "9001:9001"
+  expose:
+   - "9001"
+   - "8081"
+  restart: on-failure
+  
+ sonarqube:
+  image: sonarqube:8.9.7-community
+  container_name: sonar
+  ports:
+   - "9000:9000"
+  volumes: 
+   - "/home/sonarqube/sonarqube-data:/sonarqube-data"
+  restart: on-failure 
+ 
+ jenkins:
+  image: jenkinsci/blueocean:latest
+  container_name: jenkins
+  ports:
+   - "8080:8080"
+   - "50000:50000"
+  volumes:
+  - "/home/jenkins/data:/var/jenkins_home"
+  - "/var/run/docker.sock:/var/run/docker.sock"
+  restart: on-failure
+
+ agent:
+  image: jenkins/ssh-agent:jdk11
+  privileged: true
+  user: root
+  container_name: agent
+  expose:
+   - "22"
+  environment:
+   - "JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJxipowtnIMfQh9T01EKBgWf38vy0Xe495neOVoD4+qajpXRHbpeeX5ZI1aBH57KCzXRCbXbeTbG9bv9JhVheM2ZF/8D4FLRCExuv3FKmoD1RYJDUkEhSVvkYcL03adou+1woYwp1y7QZUk0fT0SKl7YJWcKLFx3HV6KRiiVMAbFTnba6VXNC4GoaUQoKcmxJfXRUPghR5O9QQEu73GV/wGb7FADrDiV7fhKxZuTeLIlbB70qzJqVm9y8DJQuYy5+iaozEh4rH1WJNL/Fjrs+LsDrIz3979clzskHxXvAvr915Ui/Op4xzF1O1sD+BrfM8bNB8WNJUdTMw61HX2DpL root@localhost.localdomain"
