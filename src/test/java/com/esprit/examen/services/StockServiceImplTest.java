@@ -2,6 +2,8 @@ package com.esprit.examen.services;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.esprit.examen.repositories.StockRepository;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.Test;
 //import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.junit4.SpringRunner;
@@ -27,8 +30,8 @@ public class StockServiceImplTest {
 	public void testAddStock() {
 	//	List<Stock> stocks = stockService.retrieveAllStocks();
 	//	int expected=stocks.size();
-		Long id =new Long(1);
-		Stock s = new Stock("stock test",10,100 );
+		Stock s = new Stock(1,"stock test",10,100 );
+		Mockito.when(stockRepository.save(s)).thenReturn(s);
 		Stock savedStock= stockService.addStock(s);
 		System.out.println(savedStock.getIdStock());
 	//	assertEquals(expected+1, stockService.retrieveAllStocks().size());
