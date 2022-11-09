@@ -23,96 +23,39 @@ import com.esprit.examen.entities.Stock;
 //@RunWith(SpringRunner.class)
 @SpringBootTest
 public class StockServiceImplTest {
-//	@Autowired
-//	IStockService stockService;
-	@Mock
-	StockRepository stockRepository;
-	@InjectMocks
-	StockServiceImpl stockService;
+	@Autowired
+	IStockService stockService;
+
 	@Test
 	public void testAddStock() {
-	//	List<Stock> stocks = stockService.retrieveAllStocks();
-	//	int expected=stocks.size();
-		Stock s = new Stock(1L,"stock test",10,100 );
-		Mockito.when(stockRepository.save(s)).thenReturn(s);
+		//      List<Stock> stocks = stockService.retrieveAllStocks();
+		//      int expected=stocks.size();
+		Stock s = new Stock("stock test",10,100);
+		Stock savedStock= stockService.addStock(s);
+
+		//      assertEquals(expected+1, stockService.retrieveAllStocks().size());
+		assertNotNull(savedStock.getLibelleStock());
+		stockService.deleteStock(savedStock.getIdStock());
+
+	}
+
+	@Test
+	public void testAddStockOptimized() {
+
+		Stock s = new Stock("stock test",10,100);
 		Stock savedStock= stockService.addStock(s);
 		assertNotNull(savedStock.getIdStock());
+		assertSame(10, savedStock.getQte());
+		assertTrue(savedStock.getQteMin()>0);
+		stockService.deleteStock(savedStock.getIdStock());
 
-	//	assertEquals(expected+1, stockService.retrieveAllStocks().size());
-//		assertNotNull(savedStock.getLibelleStock());
-//		stockService.deleteStock(savedStock.getIdStock());
-		
 	}
-//	@Test
-//	public void testUpdateStock() {
-//
-//		List<Stock> stocks = new ArrayList<>();
-//		Stock s1 = new Stock(1L,"stock test1",30,60);
-//		Stock s2= new Stock(2L,"stock test2",60,120);
-//		stocks.add(s1);
-//		stocks.add(s2);
-//		Mockito.when(stockRepository.save(s1)).thenReturn()
-//		assertNotNull(updateStock.getIdStock());
-//		assertSame(60, updateStock.getQte());
-//		assertTrue(updateStock.getQteMin()<11);
-//		assertSame(savedStock.getIdStock(), updateStock.getQte());
-//		stockService.deleteStock(savedStock.getIdStock());
-//
-//	}
-
-//	@Test
-//	public void testAddStockOptimized() {
-//
-//		Stock s = new Stock("stock test",10,100);
-//		Stock savedStock= stockService.addStock(s);
-//		assertNotNull(savedStock.getIdStock());
-//		assertSame(10, savedStock.getQte());
-//		assertTrue(savedStock.getQteMin()>0);
-//		stockService.deleteStock(savedStock.getIdStock());
-//
-//	}
 
 	@Test
 	public void testDeleteStock() {
-//		List<Stock> stocks = new ArrayList<>();
-//		Stock s1 = new Stock(1L,"stock test1",30,60);
-//		Stock s2= new Stock(2L,"stock test2",60,120);
-//		stocks.add(s1);
-//		stocks.add(s2);
-		Mockito.doNothing().when(stockRepository).deleteById(1L);
-		stockService.deleteStock(1L);
-		assertTrue(true);
-
-		//assertNull(stockService.retrieveStock(savedStock.getIdStock()));
+		Stock s = new Stock("stock test",30,60);
+		Stock savedStock= stockService.addStock(s);
+		stockService.deleteStock(savedStock.getIdStock());
+		assertNull(stockService.retrieveStock(savedStock.getIdStock()));
 	}
-
-	@Test
-	public void testRetrieveAllStocks(){
-		List<Stock> stocks = new ArrayList<>();
-		Stock s1 = new Stock(1L,"stock test1",30,60);
-		Stock s2= new Stock(2L,"stock test2",60,120);
-		stocks.add(s1);
-		stocks.add(s2);
-		Mockito.when(stockRepository.findAll()).thenReturn(stocks);
-
-		List<Stock> allStocks = stockService.retrieveAllStocks();
-		assertEquals(2, allStocks.size());
-		//stockService.deleteStock(savedStock.getIdStock());
-	}
-
-	@Test
-	public void testRetrieveStockById(){
-
-
-		Stock s1 = new Stock(1L,"stock test1",30,60);
-		Stock s2= new Stock(2L,"stock test2",60,120);
-		Mockito.when(stockRepository.findById(1l)).thenReturn(Optional.of(s1));
-		Mockito.when(stockRepository.findById(2l)).thenReturn(Optional.of(s2));
-		assertSame(1L, stockService.retrieveStock(1L).getIdStock());
-		assertSame(2L, stockService.retrieveStock(2L).getIdStock());
-
-		//assertTrue(stockGet.getQteMin()>0);
-		//stockService.deleteStock(stockGet.getIdStock());
-	}
-
 }
