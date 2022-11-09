@@ -1,6 +1,7 @@
 package com.esprit.examen.services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +78,7 @@ public class StockServiceImplTest {
 
 	@Test
 	public void testRetrieveAllStocks(){
-		List<Stock> stocks = stockService.retrieveAllStocks();
+		List<Stock> stocks = new ArrayList<>();
 		Stock s1 = new Stock(1L,"stock test1",30,60);
 		Stock s2= new Stock(2L,"stock test2",60,120);
 		stocks.add(s1);
@@ -89,18 +90,21 @@ public class StockServiceImplTest {
 		//stockService.deleteStock(savedStock.getIdStock());
 	}
 
-//	@Test
-//	public void testRetrieveStockById(){
-//
-//		Stock s = new Stock(1L,"stock test",10,60);
-//		Mockito.when(stockRepository.save(s)).thenReturn(s);
-//		Mockito.when(stockRepository.deleteById(Mockito.anyLong())
-//		Stock savedStock= stockService.addStock(s);
-//		Stock stockGet=stockService.retrieveStock(savedStock.getIdStock());
-//		assertNotNull(stockGet.getIdStock());
-//		assertSame(10, stockGet.getQte());
-//		assertTrue(stockGet.getQteMin()>0);
-//		stockService.deleteStock(stockGet.getIdStock());
-//	}
+	@Test
+	public void testRetrieveStockById(){
+
+		List<Stock> stocks = new ArrayList<>();
+		Stock s1 = new Stock(1L,"stock test1",30,60);
+		Stock s2= new Stock(2L,"stock test2",60,120);
+		stocks.add(s1);
+		stocks.add(s2);
+		Mockito.when(stockRepository.findById(1l)).thenReturn(Optional.of(s1));
+		Mockito.when(stockRepository.findById(2l)).thenReturn(Optional.of(s2));
+		assertSame(1L, stockService.retrieveStock(1L).getIdStock());
+		assertSame(2L, stockService.retrieveStock(2L).getIdStock());
+
+		//assertTrue(stockGet.getQteMin()>0);
+		//stockService.deleteStock(stockGet.getIdStock());
+	}
 
 }
