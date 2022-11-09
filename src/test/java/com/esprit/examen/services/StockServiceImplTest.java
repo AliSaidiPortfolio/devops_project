@@ -30,7 +30,7 @@ public class StockServiceImplTest {
 	public void testAddStock() {
 	//	List<Stock> stocks = stockService.retrieveAllStocks();
 	//	int expected=stocks.size();
-		Stock s = new Stock("stock test",10,100 );
+		Stock s = new Stock(1L,"stock test",10,100 );
 		Mockito.when(stockRepository.save(s)).thenReturn(s);
 		Stock savedStock= stockService.addStock(s);
 		System.out.println(savedStock.getIdStock());
