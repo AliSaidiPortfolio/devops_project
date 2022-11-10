@@ -80,7 +80,7 @@ public class StockServiceImplTest {
 
 	}
 
-///////////////aaa
+///////////////a
 	@Test
 	public void testDeleteStock() {
 		Stock s = new Stock("stock test",600,60);
