@@ -50,6 +50,15 @@ public class StockServiceImplTest {
 		stockService.deleteStock(savedStock.getIdStock());
 
 	}
+	@Test
+	public void testRetrieveAllStock() {
+
+		List<Stock>stocks= (List<Stock>) stockService.retrieveAllStocks();
+		assertNotNull(stocks);
+		assertTrue(stocks.size()>0);
+
+
+	}
 
 
 	@Test
@@ -58,10 +67,6 @@ public class StockServiceImplTest {
 		assertNotNull(s);
 		assertSame(100,s.getQte());
 		assertSame(10, s.getQteMin());
-
-//		assertTrue(savedStock.getQteMin()>0);
-	//	stockService.deleteStock(savedStock.getIdStock());
-
 	}
 	@Test
 	public void testAddStockOptimized() {
