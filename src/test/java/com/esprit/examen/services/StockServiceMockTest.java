@@ -39,7 +39,7 @@ public class StockServiceMockTest {
         Stock s =new Stock("test stock",70,700);
         List<Stock> stocks = new ArrayList<>();
         stocks.add(s);
-        Mockito.when(stockService.retrieveAllStocks()).thenReturn(stocks);
+        Mockito.when(stockRepository.findAll()).thenReturn(stocks);
         List<Stock> result = stockService.retrieveAllStocks();
         assertEquals(result.size(), 1);
     }
@@ -49,7 +49,7 @@ public class StockServiceMockTest {
 
 
         Stock s =new Stock("test stock",70,700);
-        Mockito.doNothing().when(stockService).addStock(s);
+        Mockito.doNothing().when(stockRepository).save(s);
         stockService.addStock(s);
         assertTrue(true);
     }
@@ -59,13 +59,13 @@ public class StockServiceMockTest {
 
 
         Stock s =new Stock("test stock",70,700);
-        Mockito.doNothing().when(stockService).updateStock(s);
+        Mockito.doNothing().when(stockRepository).save(s);
         stockService.updateStock(s);
         assertTrue(true);
     }
     @Test
     public void testDeleteStock()  {
-        Mockito.doNothing().when(stockService).deleteStock(1l);
+        Mockito.doNothing().when(stockRepository).deleteById(1l);
         stockService.deleteStock(1l);
         assertTrue(true);
     }
