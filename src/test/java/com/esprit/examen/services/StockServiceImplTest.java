@@ -89,4 +89,4 @@ public class StockServiceImplTest {
 		assertNull(stockService.retrieveStock(savedStock.getIdStock()));
 	}
 }
-///////////////test stock JUNIT///////////////////////////////////
+///////////////test stock JUNIT/////////////////////////////////////
