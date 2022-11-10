@@ -80,7 +80,7 @@ public class StockServiceImplTest {
 
 	}
 
-///////////////test stock
+
 	@Test
 	public void testDeleteStock() {
 		Stock s = new Stock("stock test",600,60);
@@ -89,3 +89,4 @@ public class StockServiceImplTest {
 		assertNull(stockService.retrieveStock(savedStock.getIdStock()));
 	}
 }
+///////////////test stock JUNIT///////////////////////////
