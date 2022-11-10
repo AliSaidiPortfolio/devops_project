@@ -56,7 +56,7 @@ public class StockServiceImplTest {
 		Stock s = new Stock("stock test",600,60);
 		Stock savedStock= stockService.addStock(s);
 		assertNotNull(savedStock.getIdStock());
-		assertSame(600, savedStock.getQte());
+		assertSame(60, savedStock.getQteMin());
 		assertTrue(savedStock.getQteMin()>0);
 		stockService.deleteStock(savedStock.getIdStock());
 
