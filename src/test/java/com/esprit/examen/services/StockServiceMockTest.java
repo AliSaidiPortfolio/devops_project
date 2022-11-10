@@ -6,16 +6,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.esprit.examen.repositories.StockRepository;
-import org.hibernate.type.TrueFalseType;
 import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
 import com.esprit.examen.entities.Stock;
 @SpringBootTest
 public class StockServiceMockTest {
