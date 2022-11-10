@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage ('Prometheus') {
             steps {
-                sh"docker run -d --name prometheus -p 9090:9090 -v /home/prometheus/prometheus-data:/etc/prometheus prom/prometheus"
+                sh"docker restart prometheus"
 
             }
         }
@@ -15,7 +15,7 @@ pipeline {
 
         stage("Grafana") {
             steps {
-                sh " docker run -d --name grafana -p 3000:3000 -v /home/grafana/grafana-data:/etc/grafana grafana/grafana"
+                sh " docker restart grafana"
             }
         }
 
