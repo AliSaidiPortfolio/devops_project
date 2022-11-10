@@ -38,6 +38,19 @@ public class StockServiceImplTest {
 		stockService.deleteStock(savedStock.getIdStock());
 
 	}
+	@Test
+	public void testUpdateStock() {
+
+		Stock s = new Stock("stock test",600,60);
+		Stock savedStock= stockService.addStock(s);
+		savedStock.setQteMin(70);
+		Stock updateStock=stockService.updateStock(savedStock);
+		assertSame(70,updateStock.getQteMin());
+		assertSame(savedStock.getIdStock(),updateStock.getIdStock());
+		stockService.deleteStock(savedStock.getIdStock());
+
+	}
+
 
 	@Test
 	public void testRetrieveStockById() {
