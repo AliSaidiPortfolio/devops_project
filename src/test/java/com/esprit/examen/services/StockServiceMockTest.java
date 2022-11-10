@@ -49,7 +49,7 @@ public class StockServiceMockTest {
 
 
         Stock s =new Stock("test stock",70,700);
-        Mockito.doNothing().when(stockRepository).save(s);
+        Mockito.when(stockRepository.save(s)).thenReturn(s);
         stockService.addStock(s);
         assertTrue(true);
     }
@@ -59,7 +59,7 @@ public class StockServiceMockTest {
 
 
         Stock s =new Stock("test stock",70,700);
-        Mockito.doNothing().when(stockRepository).save(s);
+        Mockito.when(stockRepository.save(s)).thenReturn(s);
         stockService.updateStock(s);
         assertTrue(true);
     }
