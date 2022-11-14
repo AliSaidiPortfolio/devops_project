@@ -11,7 +11,7 @@ pipeline {
         stage ('GIT Checkout') {
             steps {
                echo "Getting Project from Git";
-                git branch: "main",
+                git branch: "alisaidi",
                     url: "https://github.com/AliSaidiPortfolio/atelier_docker",
                     credentialsId: "jenkins_token";
             }
