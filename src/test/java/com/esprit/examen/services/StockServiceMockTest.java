@@ -16,7 +16,7 @@ import com.esprit.examen.entities.Stock;
 public class StockServiceMockTest {
 
     @Mock
-    StockRepository stockRepository;
+    StockRepository stockRepository;//
     @InjectMocks
     StockServiceImpl stockService;
     //mock assure le type de retour qu on veut par la methode
